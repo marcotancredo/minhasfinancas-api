@@ -73,8 +73,8 @@ public class LancamentoServiceImpl implements LancamentoService {
       throw new RegraNegocioException("Informe um Mês válido.");
     }
 
-    if(lancamento.getAno() == null || lancamento.getAno().toString().length() > 4){
-      throw new RegraNegocioException("Informe um Ano .");
+    if(lancamento.getAno() == null || lancamento.getAno().toString().length() != 4){
+      throw new RegraNegocioException("Informe um Ano válido.");
     }
 
     if(lancamento.getUsuario() == null || lancamento.getUsuario().getId() == null){
@@ -82,7 +82,7 @@ public class LancamentoServiceImpl implements LancamentoService {
     }
 
     if(lancamento.getValor() == null || lancamento.getValor().compareTo(BigDecimal.ZERO) < 1){
-      throw new RegraNegocioException("Informar um Valor válido");
+      throw new RegraNegocioException("Informar um Valor válido.");
     }
 
     if(lancamento.getTipo() == null){
