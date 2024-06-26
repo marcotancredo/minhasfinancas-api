@@ -13,6 +13,8 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.Optional;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 @ExtendWith(SpringExtension.class)
 @ActiveProfiles("test")
 @DataJpaTest
@@ -21,7 +23,6 @@ public class UsuarioRepositoryTest {
 
     @Autowired
     UsuarioRepository repository;
-
     @Autowired
     TestEntityManager entityManager;
 
@@ -32,14 +33,14 @@ public class UsuarioRepositoryTest {
 
         boolean result = repository.existsByEmail("usuario@email.com");
 
-        Assertions.assertThat(result).isTrue();
+        assertThat(result).isTrue();
     }
 
     @Test
     public void deveRetornarFalsoQuandoNaoHouverUsuarioCadastradoComOEmail() {
         boolean result = repository.existsByEmail("usuario@email.com");
 
-        Assertions.assertThat(result).isFalse();
+        assertThat(result).isFalse();
     }
 
     @Test
@@ -48,7 +49,7 @@ public class UsuarioRepositoryTest {
 
         Usuario usuarioSalvo = repository.save(usuario);
 
-        Assertions.assertThat(usuarioSalvo.getId()).isNotNull();
+        assertThat(usuarioSalvo.getId()).isNotNull();
     }
 
     @Test
@@ -58,14 +59,14 @@ public class UsuarioRepositoryTest {
 
         Optional<Usuario> result = repository.findByEmail("usuario@email.com");
 
-        Assertions.assertThat(result.isPresent()).isTrue();
+        assertThat(result.isPresent()).isTrue();
     }
 
     @Test
     public void deveRetornarVazioAoBuscarUsuarioPorEmailQuandoNaoExisteNaBase() {
         Optional<Usuario> result = repository.findByEmail("usuario@email.com");
 
-        Assertions.assertThat(result.isPresent()).isFalse();
+        assertThat(result.isPresent()).isFalse();
     }
 
     private static Usuario criarUsuario() {
