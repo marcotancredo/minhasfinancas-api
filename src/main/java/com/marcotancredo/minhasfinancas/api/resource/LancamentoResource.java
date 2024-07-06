@@ -10,6 +10,7 @@ import com.marcotancredo.minhasfinancas.model.exception.RegraNegocioException;
 import com.marcotancredo.minhasfinancas.model.service.LancamentoService;
 import com.marcotancredo.minhasfinancas.model.service.UsuarioService;
 import lombok.RequiredArgsConstructor;
+import org.apache.catalina.connector.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -98,6 +99,26 @@ public class LancamentoResource {
 
         List<Lancamento> lancamentos = service.buscar(filtro);
         return ResponseEntity.ok(lancamentos);
+    }
+
+    @GetMapping("{id}")
+    public ResponseEntity obterLancamento(@PathVariable("id") Long id) {
+        return service.obterPorId(id)
+                .map(lancamento -> new ResponseEntity(converter(lancamento), HttpStatus.OK))
+                .orElseGet(() -> new ResponseEntity(HttpStatus.NOT_FOUND));
+    }
+
+    private LancamentoDTO converter(Lancamento lancamento) {
+        return LancamentoDTO.builder()
+                .id(lancamento.getId())
+                .descricao(lancamento.getDescricao())
+                .valor(lancamento.getValor())
+                .mes(lancamento.getMes())
+                .ano(lancamento.getAno())
+                .tipo(lancamento.getTipo().name())
+                .status(lancamento.getStatus().name())
+                .usuario(lancamento.getUsuario().getId())
+                .build();
     }
 
     private Lancamento converter(LancamentoDTO dto) {

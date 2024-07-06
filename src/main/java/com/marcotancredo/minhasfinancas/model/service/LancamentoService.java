@@ -16,5 +16,5 @@ public interface LancamentoService {
     void atualizarStatus(Lancamento lancamento, StatusLancamento status);
     void validar(Lancamento lancamento);
     Optional<Lancamento> obterPorId(Long id);
-    BigDecimal obterSaldoPorUsuario(Long id);
+    BigDecimal obterSaldoPorUsuarioEStatus(Long id);
 }
